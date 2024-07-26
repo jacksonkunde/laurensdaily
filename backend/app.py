@@ -1,5 +1,5 @@
 import random
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file, url_for
 from flask_cors import CORS
 from flask_talisman import Talisman
 import requests
@@ -16,7 +16,7 @@ Talisman(app)
 comic_cache = {
     'date': None,
     'title': None,
-    'image_path': None
+    'image_filename': None
 }
 
 # Get the absolute path to the images directory
@@ -32,18 +32,23 @@ def home():
     with lock:
         if comic_cache['date'] == today:
             comic_title = comic_cache['title']
-            image_path = comic_cache['image_path']
+            image_filename = comic_cache['image_filename']
         else:
-            comic_url, comic_title, image_path = fetch_comic()
+            comic_url, comic_title, image_filename = fetch_comic()
             if comic_url:
                 comic_cache['date'] = today
                 comic_cache['title'] = comic_title
-                comic_cache['image_path'] = image_path
+                comic_cache['image_filename'] = image_filename
 
-    if image_path:
-        return jsonify(title=comic_title, image_url=image_path)
+    if image_filename:
+        image_url = url_for('get_comic_image', filename=image_filename, _external=True)
+        return jsonify(title=comic_title, image_url=image_url)
     else:
         return jsonify(message="Comic not found"), 404
+
+@app.route('/images/<filename>')
+def get_comic_image(filename):
+    return send_file(os.path.join(IMAGES_DIR, filename))
 
 def fetch_comic():
     # Define the date range
@@ -81,7 +86,8 @@ def fetch_comic():
                 file_extension = comic_url.split('.')[-1].split('/')[0]
                 
                 # Save the image locally with the correct extension
-                image_path = os.path.join(IMAGES_DIR, f'daily_comic.{file_extension}')
+                image_filename = f'daily_comic.{file_extension}'
+                image_path = os.path.join(IMAGES_DIR, image_filename)
                 
                 # Cleanup old images
                 cleanup_images()
@@ -92,7 +98,7 @@ def fetch_comic():
                     handler.write(img_data)
                     
                 comic_title = comic_tag.text
-                return comic_url, comic_title, image_path
+                return comic_url, comic_title, image_filename
         max_attempts -= 1
     return None, None, None
 

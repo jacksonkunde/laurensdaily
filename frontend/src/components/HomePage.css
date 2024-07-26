@@ -1,0 +1,134 @@
+@font-face {
+    font-family: 'RecoletaBold';
+    src: url('../fonts/Recoleta\ Bold.WOFF') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RecoletaLight';
+    src: url('../fonts/Recoleta\ Light.WOFF') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RecoletaAltMed';
+    src: url('../fonts/Recoleta\ Alt\ Medium.WOFF') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RecoletaAltBold';
+    src: url('../fonts/Recoleta\ Alt\ Bold.WOFF') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'RecoletaAltMed', serif;
+  background-color: #fdb2cb;;
+  overflow-x: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.title {
+    font-family: 'RecoletaAltBold', serif;
+    font-size: 4rem;
+    margin-bottom: 10px;
+    color: #fcfcfc; /* Light pink color */
+    text-shadow: 2px 2px 4px #ff669977; /* Add shadow */
+    animation: fadeInTitle 1.5s ease-in-out;
+}
+
+@keyframes fadeInTitle {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.comicTitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.comicWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 95%;
+    max-height: 80vh;
+    padding: 16px; /* Added padding */
+    border: 2px solid #fff;
+    box-shadow: 4px 4px 16px #ff669977;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+
+.comic {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  transition: transform 0.3s ease;
+  animation: fadeInComic 1.5s ease-in-out;
+}
+
+@keyframes fadeInComic {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.comic:hover {
+  transform: scale(1.05);
+}
+
+.signature {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.signature::after {
+  content: "❤️";
+  font-size: 1.2rem;
+  margin-left: 5px;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .comicTitle {
+    font-size: 1.2rem;
+  }
+
+  .comicWrapper {
+    max-height: 60vh;
+  }
+
+  .comic {
+    max-height: 60vh;
+  }
+
+  .signature {
+    font-size: 1rem;
+  }
+}

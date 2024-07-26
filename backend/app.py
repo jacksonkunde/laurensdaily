@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import os
 import threading
+import pytz
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -26,9 +27,12 @@ IMAGES_DIR = os.path.join(BASE_DIR, 'images')
 # Lock for thread-safe operations
 lock = threading.Lock()
 
+# Central Time Zone
+CENTRAL_TZ = pytz.timezone('America/Chicago')
+
 @app.route('/')
 def home():
-    today = datetime.now().date()
+    today = datetime.now(CENTRAL_TZ).date()
     with lock:
         if comic_cache['date'] == today:
             comic_title = comic_cache['title']
@@ -42,6 +46,7 @@ def home():
 
     if image_filename:
         image_url = url_for('get_comic_image', filename=image_filename, _external=True)
+        
         return jsonify(title=comic_title, image_url=image_url)
     else:
         return jsonify(message="Comic not found"), 404

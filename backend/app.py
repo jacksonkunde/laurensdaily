@@ -10,7 +10,7 @@ import shutil
 import threading
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://laurensdaily-backend-5upoh.ondigitalocean.app/"]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 Talisman(app)
 
 # Cache to store today's comic

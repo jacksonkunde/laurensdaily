@@ -85,25 +85,29 @@ def fetch_comic():
         if comic_tag:
             comic_image = comic_tag.find_next('img')
             if comic_image:
-                comic_url = comic_image['data-src']
+                try:
+                    comic_url = comic_image['data-src']
 
-                # Determine the file extension
-                file_extension = comic_url.split('.')[-1].split('/')[0]
-                
-                # Save the image locally with the correct extension
-                image_filename = f'daily_comic.{file_extension}'
-                image_path = os.path.join(IMAGES_DIR, image_filename)
-                
-                # Cleanup old images
-                cleanup_images()
-
-                img_data = requests.get(comic_url).content
-
-                with open(image_path, 'wb') as handler:
-                    handler.write(img_data)
+                    # Determine the file extension
+                    file_extension = comic_url.split('.')[-1].split('/')[0]
                     
-                comic_title = comic_tag.text
-                return comic_url, comic_title, image_filename
+                    # Save the image locally with the correct extension
+                    image_filename = f'daily_comic.{file_extension}'
+                    image_path = os.path.join(IMAGES_DIR, image_filename)
+                    
+                    # Cleanup old images
+                    cleanup_images()
+
+                    img_data = requests.get(comic_url).content
+
+                    with open(image_path, 'wb') as handler:
+                        handler.write(img_data)
+                        
+                    comic_title = comic_tag.text
+                    return comic_url, comic_title, image_filename
+                except KeyError:
+                    print(f"No 'data-src' found for {month} {day}, {random_year}. Trying another date.")
+                    
         max_attempts -= 1
     return None, None, None
 

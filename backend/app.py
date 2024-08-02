@@ -66,7 +66,7 @@ def fetch_comic():
     day = today.day
 
     # Try fetching the comic strip until found
-    max_attempts = 10
+    max_attempts = 100
     while max_attempts > 0:
         # Generate a random year within the range
         random_year = random.randint(start_year, end_year)
@@ -105,8 +105,8 @@ def fetch_comic():
                         
                     comic_title = comic_tag.text
                     return comic_url, comic_title, image_filename
-                except KeyError:
-                    print(f"No 'data-src' found for {month} {day}, {random_year}. Trying another date.")
+                except KeyError as e:
+                    print(f"No 'data-src' found for {month} {day}, {random_year}. Trying another date.\n{e}")
                     
         max_attempts -= 1
     return None, None, None

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import './HomePage.css';
 
@@ -19,12 +20,22 @@ const HomePage = () => {
 
   return (
     <div className="container">
+      <Helmet>
+        <title>Lauren's Daily</title>
+        <meta name="description" content="Lauren's Daily" />
+        {comicData.title && <meta property="og:title" content={comicData.title} />}
+        {comicData.image_url && <meta property="og:image" content={comicData.image_url} />}
+        <meta property="og:description" content="Check out the latest comic on Lauren's Daily!" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+      </Helmet>
+
       <h1 className="title">Lauren's Daily</h1>
       {comicData.title && <p className="comicTitle">{comicData.title}</p>}
       <div className="comicWrapper">
         {comicData.image_url && (
           <img
-            src={`${comicData.image_url}`}
+            src={comicData.image_url}
             alt={comicData.title}
             className="comic"
             onError={(e) => {

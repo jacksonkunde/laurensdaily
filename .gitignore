@@ -1,2 +1,7 @@
 *.pyc
 node_modules/.cache/
+/.*/
+frontend/.DS_Store
+frontend/.env
+backend/.venv/
+frontend/node_modules/.cache/

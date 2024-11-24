@@ -13,17 +13,23 @@ const HomePage = () => {
         const { title, image_url } = response.data;
         setComicData({ title, image_url });
 
-        // Dynamically update the document head
+        // Dynamically update the document head with Open Graph and Twitter metadata
         if (title) {
           document.title = `Lauren's Daily: ${title}`;
           updateMetaTag('property', 'og:title', title);
+          updateMetaTag('name', 'twitter:title', title);
         }
         if (image_url) {
           updateMetaTag('property', 'og:image', image_url);
+          updateMetaTag('name', 'twitter:image', image_url);
         }
+
+        // Common metadata for all pages
         updateMetaTag('property', 'og:description', 'Check out the latest comic on Lauren\'s Daily!');
+        updateMetaTag('name', 'twitter:description', 'Check out the latest comic on Lauren\'s Daily!');
         updateMetaTag('property', 'og:type', 'website');
         updateMetaTag('property', 'og:url', window.location.href);
+        updateMetaTag('name', 'twitter:card', 'summary_large_image'); // Large image preview on Twitter
       })
       .catch(error => {
         console.error('Error fetching the comic data:', error);

@@ -13,13 +13,19 @@ const HomePage = () => {
         const { title, image_url } = response.data;
         setComicData({ title, image_url });
 
+        // Set default image dimensions (adjust as needed)
+        const defaultWidth = 1200;
+        const defaultHeight = 630;
+
         // Dynamically update metadata
         document.title = "Lauren's Daily"; // Static title
-        updateMetaTag('property', 'og:title', "Lauren's Daily"); // Static title for Open Graph
-        updateMetaTag('name', 'twitter:title', "Lauren's Daily"); // Static title for Twitter
+        updateMetaTag('property', 'og:title', "Lauren's Daily");
+        updateMetaTag('name', 'twitter:title', "Lauren's Daily");
         if (image_url) {
-          updateMetaTag('property', 'og:image', image_url); // Full comic image
-          updateMetaTag('name', 'twitter:image', image_url); // Full comic image
+          updateMetaTag('property', 'og:image', image_url);
+          updateMetaTag('property', 'og:image:width', defaultWidth.toString());
+          updateMetaTag('property', 'og:image:height', defaultHeight.toString());
+          updateMetaTag('name', 'twitter:image', image_url);
         }
         updateMetaTag('property', 'og:description', 'Check out the latest comic on Lauren\'s Daily!');
         updateMetaTag('name', 'twitter:description', 'Check out the latest comic on Lauren\'s Daily!');

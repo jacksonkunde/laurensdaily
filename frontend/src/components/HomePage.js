@@ -13,23 +13,19 @@ const HomePage = () => {
         const { title, image_url } = response.data;
         setComicData({ title, image_url });
 
-        // Dynamically update the document head with Open Graph and Twitter metadata
-        if (title) {
-          document.title = `Lauren's Daily: ${title}`;
-          updateMetaTag('property', 'og:title', title);
-          updateMetaTag('name', 'twitter:title', title);
-        }
+        // Dynamically update metadata
+        document.title = "Lauren's Daily"; // Static title
+        updateMetaTag('property', 'og:title', "Lauren's Daily"); // Static title for Open Graph
+        updateMetaTag('name', 'twitter:title', "Lauren's Daily"); // Static title for Twitter
         if (image_url) {
-          updateMetaTag('property', 'og:image', image_url);
-          updateMetaTag('name', 'twitter:image', image_url);
+          updateMetaTag('property', 'og:image', image_url); // Full comic image
+          updateMetaTag('name', 'twitter:image', image_url); // Full comic image
         }
-
-        // Common metadata for all pages
         updateMetaTag('property', 'og:description', 'Check out the latest comic on Lauren\'s Daily!');
         updateMetaTag('name', 'twitter:description', 'Check out the latest comic on Lauren\'s Daily!');
         updateMetaTag('property', 'og:type', 'website');
         updateMetaTag('property', 'og:url', window.location.href);
-        updateMetaTag('name', 'twitter:card', 'summary_large_image'); // Large image preview on Twitter
+        updateMetaTag('name', 'twitter:card', 'summary_large_image'); // Force large Twitter card
       })
       .catch(error => {
         console.error('Error fetching the comic data:', error);
@@ -55,7 +51,7 @@ const HomePage = () => {
         {comicData.image_url && (
           <img
             src={comicData.image_url}
-            alt={comicData.title}
+            alt="Lauren's Daily Comic"
             className="comic"
             onError={(e) => {
               console.error('Error loading comic image:', e);
